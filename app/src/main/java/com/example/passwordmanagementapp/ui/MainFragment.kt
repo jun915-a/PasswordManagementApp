@@ -1,7 +1,6 @@
 package com.example.passwordmanagementapp.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,11 +28,17 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.apply {
+            recyclerView.setOnScrollChangeListener { view, scrollX, scrollY, oldScrollX, oldScrollY ->
+                if (scrollY > oldScrollY) {
+                    binding.motionLayout.transitionToEnd()
+                } else if (scrollY < oldScrollY) {
+                    binding.motionLayout.transitionToStart()
+                }
+            }
 
             recyclerView.layoutManager = layoutManager
             addItemButton.setOnClickListener {
                 viewModel.list.add("a")
-                Log.d("test_log ", "${viewModel.list.size}")
                 val adapter = ItemAdapter(viewModel.list, requireContext()) {
                 }
                 recyclerView.adapter = adapter

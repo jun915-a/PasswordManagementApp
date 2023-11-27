@@ -8,20 +8,60 @@
     android:layout_marginBottom="10dp"
     android:background="@drawable/item_background">
 
-    <EditText
-        android:id="@+id/item_name"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:background="#00000000"
-        android:hint="アイテム1"
-        android:inputType="text"
-        android:maxLength="30"
-        android:maxLines="1"
-        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/item_name_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="アイテム名: "
+            android:textColor="@color/black"
+            android:textSize="25dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="#00000000"
+            android:hint="アイテム1"
+            android:inputType="text"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:textSize="25dp"
+            app:layout_constraintStart_toEndOf="@id/item_name_title"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/item_password_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="パスワード: "
+            android:textColor="@color/black"
+            android:textSize="25dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_name" />
+
+        <EditText
+            android:id="@+id/item_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="#00000000"
+            android:hint="パスワード"
+            android:inputType="text"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:textSize="25dp"
+            app:layout_constraintStart_toEndOf="@id/item_password_title"
+            app:layout_constraintTop_toBottomOf="@+id/item_name" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/icon"

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.passwordmanagementapp.R
@@ -20,8 +21,15 @@ class ItemAdapter(
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val itemFrame: ConstraintLayout = itemView.findViewById<ConstraintLayout>(R.id.item_frame)
         val itemName: EditText = itemView.findViewById<EditText>(R.id.item_name)
+        val itemPassword: EditText = itemView.findViewById<EditText>(R.id.item_password)
         val optionIcon: ImageView = itemView.findViewById<ImageView>(R.id.icon)
         val optionArea: ConstraintLayout = itemView.findViewById<ConstraintLayout>(R.id.option_area)
+
+        val changeNameText: TextView = itemView.findViewById<TextView>(R.id.change_name_text)
+        val changePasswordText: TextView =
+            itemView.findViewById<TextView>(R.id.change_password_text)
+        val itemDeleteText: TextView = itemView.findViewById<TextView>(R.id.item_delete_text)
+        val changeColorText: TextView = itemView.findViewById<TextView>(R.id.change_color_text)
 
     }
 
@@ -43,6 +51,29 @@ class ItemAdapter(
             }
         }
 
+
+        //名前を変更
+        holder.changeNameText.setOnClickListener {
+            holder.optionArea.visibility = View.GONE
+            holder.itemName.requestFocus()
+            MainViewModel().showKeyboard(holder.itemName, context)
+        }
+
+        //パスワード入力
+        holder.changePasswordText.setOnClickListener {
+            holder.optionArea.visibility = View.GONE
+            holder.itemPassword.requestFocus()
+            MainViewModel().showKeyboard(holder.itemPassword, context)
+
+        }
+
+        //アイテム削除
+        holder.itemDeleteText.setOnClickListener {
+        }
+
+        //色の変更
+        holder.changeColorText.setOnClickListener {
+        }
     }
 
     override fun getItemCount(): Int {

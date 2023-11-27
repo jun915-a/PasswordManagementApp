@@ -1,6 +1,7 @@
 package com.example.passwordmanagementapp.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.apply {
-            recyclerView.setOnScrollChangeListener { view, scrollX, scrollY, oldScrollX, oldScrollY ->
+            recyclerView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
                 if (scrollY > oldScrollY) {
                     binding.motionLayout.transitionToEnd()
                 } else if (scrollY < oldScrollY) {
@@ -40,8 +41,18 @@ class MainFragment : Fragment() {
             addItemButton.setOnClickListener {
                 viewModel.list.add("a")
                 val adapter = ItemAdapter(viewModel.list, requireContext()) {
+                    //クリック処理　エディットテキスト入力
+                    Log.d("test_log", "test_log")
+
                 }
                 recyclerView.adapter = adapter
+            }
+
+            //他のViewタップでhideKeyBord
+            motionLayout.setOnClickListener {
+                addItemButton.requestFocus()
+                context?.let { context -> viewModel.hideKeyboard(addItemButton, context) }
+
             }
         }
     }

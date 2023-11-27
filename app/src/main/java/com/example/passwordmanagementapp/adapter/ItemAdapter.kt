@@ -1,7 +1,6 @@
 package com.example.passwordmanagementapp.adapter
 
 import android.content.Context
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.passwordmanagementapp.R
+import com.example.passwordmanagementapp.adapter.ViewModel.MainViewModel
 
 class ItemAdapter(
     private val items: MutableList<String>,
@@ -31,9 +31,9 @@ class ItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemName.text = Editable.Factory.getInstance().newEditable("文字列")
         holder.itemFrame.setOnClickListener {
-            onItemClick(items[position])
+            holder.itemName.requestFocus()
+            MainViewModel().showKeyboard(holder.itemName, context)
         }
         holder.optionIcon.setOnClickListener {
             if (holder.optionArea.visibility == View.GONE) {

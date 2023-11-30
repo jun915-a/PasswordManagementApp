@@ -1,6 +1,7 @@
 package com.example.passwordmanagementapp.adapter.ViewModel
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -37,13 +38,14 @@ class MainViewModel : ViewModel() {
         val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         val json = Gson().toJson(item)
-        editor.putString("KEY_DATA", json)
+        editor.putString("${item.itemNo}", json)
         editor.apply()
     }
 
-    fun getSharedPreferences(context: Context) {
+    fun getSharedPreferences(context: Context, position: Int) {
         val json =
-            context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE).getString("KEY_DATA", "")
+            context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE).getString("$position", "")
         val test = Gson().fromJson(json, ItemDataModel::class.java)
+        Log.d("test_log${position}", "${test}")
     }
 }

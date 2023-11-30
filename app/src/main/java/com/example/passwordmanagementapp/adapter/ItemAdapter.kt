@@ -78,7 +78,7 @@ class ItemAdapter(
 
         //色の変更
         holder.changeColorText.setOnClickListener {
-            MainViewModel().getSharedPreferences(context)
+            MainViewModel().getSharedPreferences(context,position)
 
         }
 

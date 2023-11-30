@@ -8,12 +8,13 @@
     <string name="item_delete_text">アイテム削除</string>
     <string name="change_color_text">色の変更</string>
     <string name="confirm_text">確定</string>
-    <string name="item_name_title_text">アイテム名　: </string>
+    <string name="item_name_title_text">アイテム名</string>
     <string name="item_name_title_hint">アイテム</string>
-    <string name="item_name_id_text">ID　　　　　:</string>
+    <string name="item_name_id_text">ID</string>
     <string name="item_name_id_hint">ID</string>
-    <string name="item_name_password_text">パスワード　:</string>
+    <string name="item_name_password_text">パスワード</string>
     <string name="item_name_password_hint">パスワード</string>
+    <string name="coron">:</string>
 
 
 

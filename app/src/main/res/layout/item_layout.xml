@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_frame"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
+    android:layout_height="200dp"
     android:layout_marginHorizontal="10dp"
     android:layout_marginBottom="10dp"
     android:background="@drawable/item_background">
@@ -11,16 +11,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="30dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/item_name_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="アイテム名: "
+            android:text="@string/item_name_title_text"
             android:textColor="@color/black"
-            android:textSize="25dp"
+            android:textSize="25sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,23 +30,47 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:background="#00000000"
-            android:hint="アイテム1"
+            android:hint="@string/item_name_title_hint"
             android:inputType="text"
             android:maxLength="30"
             android:maxLines="1"
-            android:textSize="25dp"
+            android:textSize="25sp"
             app:layout_constraintStart_toEndOf="@id/item_name_title"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/item_id_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID　　　　　: "
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_name" />
+
+        <EditText
+            android:id="@+id/item_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="#00000000"
+            android:hint="@string/item_name_id_hint"
+            android:inputType="text"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:textSize="25sp"
+            app:layout_constraintStart_toEndOf="@id/item_id_title"
+            app:layout_constraintTop_toBottomOf="@+id/item_name" />
 
         <TextView
             android:id="@+id/item_password_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="パスワード: "
+            android:text="@string/item_name_password_text"
             android:textColor="@color/black"
-            android:textSize="25dp"
+            android:textSize="25sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_name" />
+            app:layout_constraintTop_toBottomOf="@+id/item_id_title" />
 
         <EditText
             android:id="@+id/item_password"
@@ -54,31 +78,42 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:background="#00000000"
-            android:hint="パスワード"
+            android:hint="@string/item_name_password_hint"
             android:inputType="text"
             android:maxLength="30"
             android:maxLines="1"
-            android:textSize="25dp"
+            android:textSize="25sp"
             app:layout_constraintStart_toEndOf="@id/item_password_title"
-            app:layout_constraintTop_toBottomOf="@+id/item_name" />
+            app:layout_constraintTop_toBottomOf="@+id/item_id" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:src="@android:drawable/ic_menu_more"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/confirm_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="@string/confirm_text"
+        app:background="@drawable/button_layout"
+        app:backgroundTint="#4ADACC"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/option_area"
-        android:layout_width="150dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/icon">
 
         <TextView
             android:id="@+id/change_name_text"
@@ -87,7 +122,7 @@
             android:background="@drawable/menu_text_back"
             android:gravity="center_vertical"
             android:text="@string/change_name_text"
-            android:textSize="20dp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -98,7 +133,7 @@
             android:background="@drawable/menu_text_back"
             android:gravity="center_vertical"
             android:text="@string/change_password_text"
-            android:textSize="20dp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/change_name_text" />
 
@@ -109,7 +144,7 @@
             android:background="@drawable/menu_text_back"
             android:gravity="center_vertical"
             android:text="@string/item_delete_text"
-            android:textSize="20dp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/change_password_text" />
 
@@ -120,7 +155,7 @@
             android:background="@drawable/menu_text_back"
             android:gravity="center_vertical"
             android:text="@string/change_color_text"
-            android:textSize="20dp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/item_delete_text" />
 

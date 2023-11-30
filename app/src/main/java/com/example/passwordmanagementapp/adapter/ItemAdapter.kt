@@ -1,16 +1,20 @@
 package com.example.passwordmanagementapp.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.passwordmanagementapp.R
 import com.example.passwordmanagementapp.adapter.ViewModel.MainViewModel
+import com.example.passwordmanagementapp.model.ItemDataModel
 
 class ItemAdapter(
     private val items: MutableList<String>,
@@ -19,18 +23,19 @@ class ItemAdapter(
 ) :
     RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val itemFrame: ConstraintLayout = itemView.findViewById<ConstraintLayout>(R.id.item_frame)
-        val itemName: EditText = itemView.findViewById<EditText>(R.id.item_name)
-        val itemPassword: EditText = itemView.findViewById<EditText>(R.id.item_password)
-        val optionIcon: ImageView = itemView.findViewById<ImageView>(R.id.icon)
-        val optionArea: ConstraintLayout = itemView.findViewById<ConstraintLayout>(R.id.option_area)
+        val itemFrame: ConstraintLayout = itemView.findViewById(R.id.item_frame)
+        val itemName: EditText = itemView.findViewById(R.id.item_name)
+        val itemId: EditText = itemView.findViewById(R.id.item_id)
+        val itemPassword: EditText = itemView.findViewById(R.id.item_password)
+        val optionIcon: ImageView = itemView.findViewById(R.id.icon)
+        val optionArea: ConstraintLayout = itemView.findViewById(R.id.option_area)
 
-        val changeNameText: TextView = itemView.findViewById<TextView>(R.id.change_name_text)
-        val changePasswordText: TextView =
-            itemView.findViewById<TextView>(R.id.change_password_text)
-        val itemDeleteText: TextView = itemView.findViewById<TextView>(R.id.item_delete_text)
-        val changeColorText: TextView = itemView.findViewById<TextView>(R.id.change_color_text)
+        val changeNameText: TextView = itemView.findViewById(R.id.change_name_text)
+        val changePasswordText: TextView = itemView.findViewById(R.id.change_password_text)
+        val itemDeleteText: TextView = itemView.findViewById(R.id.item_delete_text)
+        val changeColorText: TextView = itemView.findViewById(R.id.change_color_text)
 
+        val confirmButton: Button = itemView.findViewById(R.id.confirm_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -73,8 +78,29 @@ class ItemAdapter(
 
         //色の変更
         holder.changeColorText.setOnClickListener {
+            MainViewModel().getSharedPreferences(context)
+
         }
+
+        holder.confirmButton.setOnClickListener {
+            val itemName = holder.itemName.text.toString()
+            val itemId = holder.itemId.text.toString()
+            val itemPassword = holder.itemPassword.text.toString()
+
+            if (itemName.isNotEmpty() && itemId.isNotEmpty() && itemPassword.isNotEmpty()) {
+                val item = ItemDataModel(position, itemName, itemId, itemPassword)
+                MainViewModel().saveSharedPreferences(context, item)
+                Toast.makeText(context, "${itemName}の保存が完了しました", Toast.LENGTH_SHORT).show()
+                Log.d("test_log", "${item}")
+            } else {
+                Toast.makeText(context, "すべての領域に値を入力してください", Toast.LENGTH_SHORT).show()
+            }
+            MainViewModel().hideKeyboard(it, context)
+        }
+
+
     }
+
 
     override fun getItemCount(): Int {
         return items.size

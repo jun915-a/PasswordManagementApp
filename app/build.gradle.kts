@@ -51,5 +51,5 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
     implementation("com.jakewharton.timber:timber:4.7.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.3")
-
+    implementation ("com.google.code.gson:gson:2.8.6")
 }

@@ -17,7 +17,8 @@ import com.example.passwordmanagementapp.adapter.ViewModel.MainViewModel
 import com.example.passwordmanagementapp.model.ItemDataModel
 
 class ItemAdapter(
-    private val items: MutableList<String>,
+    private val count: Int,
+    private val items: MutableList<ItemDataModel>,
     private val context: Context,
     private val onItemClick: (String) -> Unit
 ) :
@@ -44,6 +45,7 @@ class ItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        Log.d("sample", "${items.size}")
         holder.itemFrame.setOnClickListener {
             holder.itemName.requestFocus()
             MainViewModel().showKeyboard(holder.itemName, context)
@@ -78,7 +80,7 @@ class ItemAdapter(
 
         //色の変更
         holder.changeColorText.setOnClickListener {
-            MainViewModel().getSharedPreferences(context,position)
+            MainViewModel().getSharedPreferences(context)
 
         }
 
@@ -88,10 +90,9 @@ class ItemAdapter(
             val itemPassword = holder.itemPassword.text.toString()
 
             if (itemName.isNotEmpty() && itemId.isNotEmpty() && itemPassword.isNotEmpty()) {
-                val item = ItemDataModel(position, itemName, itemId, itemPassword)
-                MainViewModel().saveSharedPreferences(context, item)
+                val item = ItemDataModel(itemName, itemId, itemPassword)
+                MainViewModel().saveSharedPreferences(context, item, position)
                 Toast.makeText(context, "${itemName}の保存が完了しました", Toast.LENGTH_SHORT).show()
-                Log.d("test_log", "${item}")
             } else {
                 Toast.makeText(context, "すべての領域に値を入力してください", Toast.LENGTH_SHORT).show()
             }
@@ -101,8 +102,7 @@ class ItemAdapter(
 
     }
 
-
     override fun getItemCount(): Int {
-        return items.size
+        return count
     }
 }

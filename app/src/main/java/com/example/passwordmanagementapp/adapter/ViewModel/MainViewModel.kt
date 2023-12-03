@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.passwordmanagementapp.model.ItemDataModel
 import com.example.passwordmanagementapp.ui.MainFragment
@@ -15,13 +17,22 @@ import java.text.FieldPosition
 class MainViewModel : ViewModel() {
     var itemList: MutableList<ItemDataModel> = mutableListOf()//TODO:Livedata化
 
-//    private val mItemList = MutableLiveData<MutableList<String>>()
+    //    private val mItemList = MutableLiveData<MutableList<String>>()
 //    val itemList: LiveData<MutableList<String>> = mItemList
 //
 //    fun postItemList(list:MutableList<String>) {
 //        mItemList.postValue(list)
 //    }
 
+    // MutableLiveDataを使用して変更可能なLiveDataを作成
+    private val mImageView = MutableLiveData<Int>()
+
+    // 外部に公開される不変のLiveData
+    val imageView: LiveData<Int> = mImageView
+
+    fun postImageView(imageView: Int) {
+        mImageView.postValue(imageView)
+    }
     fun showKeyboard(editText: EditText, context: Context) {
         val inputMethodManager =
             context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -42,7 +53,6 @@ class MainViewModel : ViewModel() {
         val json = Gson().toJson(item)
         editor.putString("${position}", json)
         editor.apply()
-        Log.d("!!","${position} ${itemList.size}")
 
     }
 
@@ -55,7 +65,6 @@ class MainViewModel : ViewModel() {
             if (!json.isNullOrEmpty()) {
                 val itemDataModel = Gson().fromJson(json, ItemDataModel::class.java)
                 itemList.add(itemDataModel)
-                Log.d("test_log", "${itemDataModel}")
             } else {
                 return itemList
             }

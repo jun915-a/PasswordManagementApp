@@ -1,5 +1,6 @@
 package com.example.passwordmanagementapp.adapter
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,10 +12,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.passwordmanagementapp.R
 import com.example.passwordmanagementapp.adapter.ViewModel.MainViewModel
 import com.example.passwordmanagementapp.model.ItemDataModel
+import com.example.passwordmanagementapp.ui.MainFragment
 
 class ItemAdapter(
     private val count: Int,
@@ -39,16 +43,22 @@ class ItemAdapter(
         val confirmButton: Button = itemView.findViewById(R.id.confirm_button)
     }
 
+    private val viewModel: MainViewModel =
+        ViewModelProvider.AndroidViewModelFactory.getInstance(context.applicationContext as Application)
+            .create(MainViewModel::class.java)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d("sample", "${items.size}")
+        if (position < count - 1) {
+            setItem(items.get(position), holder)
+        }
         holder.itemFrame.setOnClickListener {
             holder.itemName.requestFocus()
-            MainViewModel().showKeyboard(holder.itemName, context)
+            viewModel.showKeyboard(holder.itemName, context)
         }
         holder.optionIcon.setOnClickListener {
             if (holder.optionArea.visibility == View.GONE) {
@@ -63,24 +73,25 @@ class ItemAdapter(
         holder.changeNameText.setOnClickListener {
             holder.optionArea.visibility = View.GONE
             holder.itemName.requestFocus()
-            MainViewModel().showKeyboard(holder.itemName, context)
+            viewModel.showKeyboard(holder.itemName, context)
         }
 
         //パスワード入力
         holder.changePasswordText.setOnClickListener {
             holder.optionArea.visibility = View.GONE
             holder.itemPassword.requestFocus()
-            MainViewModel().showKeyboard(holder.itemPassword, context)
+            viewModel.showKeyboard(holder.itemPassword, context)
 
         }
 
         //アイテム削除
         holder.itemDeleteText.setOnClickListener {
+            //            viewModel.postImageView(1)
         }
 
         //色の変更
         holder.changeColorText.setOnClickListener {
-            MainViewModel().getSharedPreferences(context)
+            viewModel.getSharedPreferences(context)
 
         }
 
@@ -91,15 +102,22 @@ class ItemAdapter(
 
             if (itemName.isNotEmpty() && itemId.isNotEmpty() && itemPassword.isNotEmpty()) {
                 val item = ItemDataModel(itemName, itemId, itemPassword)
-                MainViewModel().saveSharedPreferences(context, item, position)
+                setItem(item, holder)
+                viewModel.saveSharedPreferences(context, item, position)
                 Toast.makeText(context, "${itemName}の保存が完了しました", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(context, "すべての領域に値を入力してください", Toast.LENGTH_SHORT).show()
             }
-            MainViewModel().hideKeyboard(it, context)
+            viewModel.hideKeyboard(it, context)
         }
 
 
+    }
+
+    fun setItem(item: ItemDataModel, holder: ViewHolder) {
+        holder.itemName.setText(item.itemName)
+        holder.itemId.setText(item.itemId)
+        holder.itemPassword.setText(item.itemPassword)
     }
 
     override fun getItemCount(): Int {

@@ -53,13 +53,35 @@ class ItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        if (holder.optionArea.visibility == View.VISIBLE) {
+            holder.optionArea.visibility = View.GONE
+        }
         if (position < count - 1) {
             setItem(items.get(position), holder)
         }
         holder.itemFrame.setOnClickListener {
+            if (holder.optionArea.visibility == View.VISIBLE) {
+                holder.optionArea.visibility = View.GONE
+            }
             holder.itemName.requestFocus()
             viewModel.showKeyboard(holder.itemName, context)
         }
+        holder.itemName.setOnClickListener{
+            if (holder.optionArea.visibility == View.VISIBLE) {
+                holder.optionArea.visibility = View.GONE
+            }
+        }
+        holder.itemId.setOnClickListener{
+            if (holder.optionArea.visibility == View.VISIBLE) {
+                holder.optionArea.visibility = View.GONE
+            }
+        }
+        holder.itemPassword.setOnClickListener {
+            if (holder.optionArea.visibility == View.VISIBLE) {
+                holder.optionArea.visibility = View.GONE
+            }
+        }
+
         holder.optionIcon.setOnClickListener {
             if (holder.optionArea.visibility == View.GONE) {
                 holder.optionArea.visibility = View.VISIBLE

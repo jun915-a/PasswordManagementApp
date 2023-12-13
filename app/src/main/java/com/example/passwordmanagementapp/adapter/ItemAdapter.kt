@@ -23,7 +23,7 @@ class ItemAdapter(
     private val count: Int,
     private val items: ArrayList<ItemDataModel>,
     private val context: Context,
-    private val onItemClick: (String) -> Unit
+    private val onItemClick: (position: Int) -> Unit
 ) :
     RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -129,6 +129,7 @@ class ItemAdapter(
                 viewModel.saveSharedPreferences(context, item, position)
                 Toast.makeText(context, "${itemName}の保存が完了しました", Toast.LENGTH_SHORT).show()
                 MainFragment.availableItemFlag = true
+                onItemClick.invoke(position)
             } else {
                 Toast.makeText(context, "すべての領域に値を入力してください", Toast.LENGTH_SHORT).show()
             }

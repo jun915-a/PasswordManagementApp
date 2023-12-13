@@ -1,13 +1,17 @@
 package com.example.passwordmanagementapp.ui
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.passwordmanagementapp.R
 import com.example.passwordmanagementapp.adapter.ItemAdapter
 import com.example.passwordmanagementapp.adapter.ViewModel.MainViewModel
 import com.example.passwordmanagementapp.databinding.FragmentMainBinding
@@ -48,7 +52,9 @@ class MainFragment : Fragment() {
                     savedListItem.size + 1,
                     savedListItem as ArrayList,
                     requireContext()
-                ) {}
+                ) {
+                    afterConfirm(motionLayout,appDescription)
+                }
                 binding.recyclerView.adapter = adapter
             }
             recyclerView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
@@ -68,17 +74,19 @@ class MainFragment : Fragment() {
                 if (!availableItemFlag) {
                     Toast.makeText(context, "現在のアイテムを確定していません。", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(
-                        context,
-                        "itemList ${viewModel.firstAdapterItemList.size}。",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    if (viewModel.getSharedPreferences(requireContext()).size == 0) {
+                    //アイテム追加時レイアウト
+                    motionLayout.transitionToState(R.id.item_add_motion)
+                    appDescription.apply {
+                        textSize = 18F
+                        text = getString(R.string.app_description_2)
+                        appDescription.typeface = Typeface.DEFAULT_BOLD
+                    }
+                    if (viewModel.getSharedPreferences(requireContext()).isEmpty()) {
                         availableItemFlag = false
-
-                        val adapter = ItemAdapter(1, arrayListOf(), requireContext()) {}
+                        val adapter = ItemAdapter(1, arrayListOf(), requireContext()) {
+                            afterConfirm(motionLayout,appDescription)
+                        }
                         recyclerView.adapter = adapter
-
                     } else {
                         availableItemFlag = false
                         val itemAdapterList = viewModel.getSharedPreferences(requireContext())
@@ -88,6 +96,7 @@ class MainFragment : Fragment() {
                             requireContext()
                         ) {
                             //クリック処理　エディットテキスト入力
+                            afterConfirm(motionLayout,appDescription)
                         }
                         recyclerView.adapter = adapter
                     }
@@ -103,6 +112,15 @@ class MainFragment : Fragment() {
         }
     }
 
+    fun afterConfirm(motionLayout: MotionLayout, appDescription: TextView,){
+        motionLayout.transitionToState(R.id.start)
+        appDescription.apply {
+            textSize = 14F
+            text = getString(R.string.app_description)
+            appDescription.typeface = Typeface.DEFAULT
+        }
+
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

@@ -2,6 +2,7 @@ package com.example.passwordmanagementapp.ui
 
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,11 +59,13 @@ class MainFragment : Fragment() {
                 }
                 binding.recyclerView.adapter = adapter
             }
-            listScrollArea.smoothScrollBy(0,2000)
-            listScrollArea.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            recyclerView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
                 if (scrollY > oldScrollY) {
+                    Log.d("test_log ","ue")
                     binding.motionLayout.transitionToEnd()
                 } else if (scrollY < oldScrollY && isCanScroll) {
+                    Log.d("test_log ","ato")
+
                     binding.motionLayout.transitionToStart()
                 }
             }

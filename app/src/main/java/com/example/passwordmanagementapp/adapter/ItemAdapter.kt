@@ -21,7 +21,7 @@ import com.example.passwordmanagementapp.ui.MainFragment
 
 class ItemAdapter(
     private val count: Int,
-    private val items: MutableList<ItemDataModel>,
+    private val items: ArrayList<ItemDataModel>,
     private val context: Context,
     private val onItemClick: (String) -> Unit
 ) :

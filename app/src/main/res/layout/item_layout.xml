@@ -47,10 +47,13 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="30dp"
             android:background="#00000000"
+            android:enabled="false"
             android:hint="@string/item_name_title_hint"
+            android:imeOptions="actionDone"
             android:inputType="text"
             android:maxLength="30"
             android:maxLines="1"
+            android:textColor="@drawable/theme"
             android:textSize="25sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/coron_name"
@@ -89,10 +92,12 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="30dp"
             android:background="#00000000"
+            android:enabled="false"
             android:hint="@string/item_name_id_hint"
             android:inputType="text"
             android:maxLength="30"
             android:maxLines="1"
+            android:textColor="@drawable/theme"
             android:textSize="25sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/coron_id"
@@ -130,10 +135,12 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="30dp"
             android:background="#00000000"
+            android:enabled="false"
             android:hint="@string/item_name_password_hint"
             android:inputType="text"
             android:maxLength="30"
             android:maxLines="1"
+            android:textColor="@drawable/theme"
             android:textSize="25sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/coron_password"
@@ -181,6 +188,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/change_id_text"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/menu_text_back"
+            android:gravity="center_vertical"
+            android:text="@string/change_id_text"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/change_name_text" />
+
+        <TextView
             android:id="@+id/change_password_text"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -189,7 +207,7 @@
             android:text="@string/change_password_text"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/change_name_text" />
+            app:layout_constraintTop_toBottomOf="@+id/change_id_text" />
 
         <TextView
             android:id="@+id/item_delete_text"
@@ -201,17 +219,6 @@
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/change_password_text" />
-
-        <TextView
-            android:id="@+id/change_color_text"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/menu_text_back"
-            android:gravity="center_vertical"
-            android:text="@string/change_color_text"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_delete_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

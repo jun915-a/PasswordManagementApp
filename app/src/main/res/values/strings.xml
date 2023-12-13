@@ -3,8 +3,9 @@
     <string name="app_title_text">パスワード管理アプリ</string>
     <string name="app_description">※アイテムを追加する場合は下記「アイテムを追加」ボタン\nをタップしてください。</string>
     <string name="add_item">アイテムを追加</string>
-    <string name="change_name_text">名前変更</string>
-    <string name="change_password_text">パスワード入力</string>
+    <string name="change_name_text">アイテム名変更</string>
+    <string name="change_id_text">ID変更</string>
+    <string name="change_password_text">パスワード変更</string>
     <string name="item_delete_text">アイテム削除</string>
     <string name="change_color_text">色の変更</string>
     <string name="confirm_text">確定</string>

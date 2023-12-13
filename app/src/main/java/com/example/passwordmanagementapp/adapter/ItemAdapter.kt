@@ -2,23 +2,21 @@ package com.example.passwordmanagementapp.adapter
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.passwordmanagementapp.R
 import com.example.passwordmanagementapp.adapter.ViewModel.MainViewModel
 import com.example.passwordmanagementapp.model.ItemDataModel
-import com.example.passwordmanagementapp.ui.MainFragment
 
 class ItemAdapter(
     private val count: Int,
@@ -36,9 +34,9 @@ class ItemAdapter(
         val optionArea: ConstraintLayout = itemView.findViewById(R.id.option_area)
 
         val changeNameText: TextView = itemView.findViewById(R.id.change_name_text)
+        val changeIdText: TextView = itemView.findViewById(R.id.change_id_text)
         val changePasswordText: TextView = itemView.findViewById(R.id.change_password_text)
         val itemDeleteText: TextView = itemView.findViewById(R.id.item_delete_text)
-        val changeColorText: TextView = itemView.findViewById(R.id.change_color_text)
 
         val confirmButton: Button = itemView.findViewById(R.id.confirm_button)
     }
@@ -63,15 +61,13 @@ class ItemAdapter(
             if (holder.optionArea.visibility == View.VISIBLE) {
                 holder.optionArea.visibility = View.GONE
             }
-            holder.itemName.requestFocus()
-            viewModel.showKeyboard(holder.itemName, context)
         }
-        holder.itemName.setOnClickListener{
+        holder.itemName.setOnClickListener {
             if (holder.optionArea.visibility == View.VISIBLE) {
                 holder.optionArea.visibility = View.GONE
             }
         }
-        holder.itemId.setOnClickListener{
+        holder.itemId.setOnClickListener {
             if (holder.optionArea.visibility == View.VISIBLE) {
                 holder.optionArea.visibility = View.GONE
             }
@@ -83,6 +79,7 @@ class ItemAdapter(
         }
 
         holder.optionIcon.setOnClickListener {
+            viewModel.hideKeyboard(it, context)
             if (holder.optionArea.visibility == View.GONE) {
                 holder.optionArea.visibility = View.VISIBLE
             } else if (holder.optionArea.visibility == View.VISIBLE) {
@@ -91,30 +88,33 @@ class ItemAdapter(
         }
 
 
-        //名前を変更
+        //アイテム名変更
         holder.changeNameText.setOnClickListener {
             holder.optionArea.visibility = View.GONE
+            holder.itemName.isEnabled = true
             holder.itemName.requestFocus()
             viewModel.showKeyboard(holder.itemName, context)
         }
 
-        //パスワード入力
+        //ID変更
+        holder.changeIdText.setOnClickListener {
+            holder.optionArea.visibility = View.GONE
+            holder.itemId.isEnabled = true
+            holder.itemId.requestFocus()
+            viewModel.showKeyboard(holder.itemId, context)
+        }
+
+        //パスワード変更
         holder.changePasswordText.setOnClickListener {
             holder.optionArea.visibility = View.GONE
+            holder.itemPassword.isEnabled = true
             holder.itemPassword.requestFocus()
             viewModel.showKeyboard(holder.itemPassword, context)
-
         }
 
         //アイテム削除
         holder.itemDeleteText.setOnClickListener {
-            //            viewModel.postImageView(1)
-        }
-
-        //色の変更
-        holder.changeColorText.setOnClickListener {
-            viewModel.getSharedPreferences(context)
-
+//            viewModel.getSharedPreferences(context)
         }
 
         holder.confirmButton.setOnClickListener {
@@ -132,8 +132,35 @@ class ItemAdapter(
             }
             viewModel.hideKeyboard(it, context)
         }
+        //アイテム名テキスト入力完了時
+        holder.itemName.setOnEditorActionListener { view, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                // 完了(DONE)だったらやりたい処理
+                holder.itemName.isEnabled = false
+                viewModel.hideKeyboard(view, context)
+            }
+            return@setOnEditorActionListener true
+        }
 
+        //IDテキスト入力完了時
+        holder.itemId.setOnEditorActionListener { view, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                // 完了(DONE)だったらやりたい処理
+                holder.itemId.isEnabled = false
+                viewModel.hideKeyboard(view, context)
+            }
+            return@setOnEditorActionListener true
+        }
 
+        //パスワードテキスト入力完了時
+        holder.itemPassword.setOnEditorActionListener { view, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                // 完了(DONE)だったらやりたい処理
+                holder.itemPassword.isEnabled = false
+                viewModel.hideKeyboard(view, context)
+            }
+            return@setOnEditorActionListener true
+        }
     }
 
     fun setItem(item: ItemDataModel, holder: ViewHolder) {

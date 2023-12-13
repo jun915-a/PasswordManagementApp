@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.passwordmanagementapp.R
 import com.example.passwordmanagementapp.adapter.ViewModel.MainViewModel
 import com.example.passwordmanagementapp.model.ItemDataModel
+import com.example.passwordmanagementapp.ui.MainFragment
 
 class ItemAdapter(
     private val count: Int,
@@ -127,6 +128,7 @@ class ItemAdapter(
                 setItem(item, holder)
                 viewModel.saveSharedPreferences(context, item, position)
                 Toast.makeText(context, "${itemName}の保存が完了しました", Toast.LENGTH_SHORT).show()
+                MainFragment.availableItemFlag = true
             } else {
                 Toast.makeText(context, "すべての領域に値を入力してください", Toast.LENGTH_SHORT).show()
             }

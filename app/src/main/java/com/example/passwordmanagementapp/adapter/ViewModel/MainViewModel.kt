@@ -11,28 +11,21 @@ import androidx.lifecycle.ViewModel
 import com.example.passwordmanagementapp.model.ItemDataModel
 import com.example.passwordmanagementapp.ui.MainFragment
 import com.google.gson.Gson
-import java.text.FieldPosition
 
 
 class MainViewModel : ViewModel() {
     var itemList: MutableList<ItemDataModel> = mutableListOf()//TODO:Livedata化
 
-    //    private val mItemList = MutableLiveData<MutableList<String>>()
-//    val itemList: LiveData<MutableList<String>> = mItemList
-//
-//    fun postItemList(list:MutableList<String>) {
-//        mItemList.postValue(list)
-//    }
-
     // MutableLiveDataを使用して変更可能なLiveDataを作成
-    private val mImageView = MutableLiveData<Int>()
+    private val mAdapterList = MutableLiveData<MutableList<ItemDataModel>>()
 
     // 外部に公開される不変のLiveData
-    val imageView: LiveData<Int> = mImageView
+    val adapterList: LiveData<MutableList<ItemDataModel>> = mAdapterList
 
-    fun postImageView(imageView: Int) {
-        mImageView.postValue(imageView)
+    fun postImageView(list: MutableList<ItemDataModel>) {
+        mAdapterList.postValue(list)
     }
+
     fun showKeyboard(editText: EditText, context: Context) {
         val inputMethodManager =
             context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -48,6 +41,7 @@ class MainViewModel : ViewModel() {
 
     fun saveSharedPreferences(context: Context, item: ItemDataModel, position: Int) {
         itemList.add(item)
+        Log.d("test_log", "${itemList.size}")
         val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         val json = Gson().toJson(item)
@@ -57,18 +51,24 @@ class MainViewModel : ViewModel() {
     }
 
     fun getSharedPreferences(context: Context): MutableList<ItemDataModel> {
-        itemList = mutableListOf()
         for (i in 0..MainFragment.MAX_ITEM_VALUE) {
             val json =
                 context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
                     .getString("${i}", "")
             if (!json.isNullOrEmpty()) {
                 val itemDataModel = Gson().fromJson(json, ItemDataModel::class.java)
-                itemList.add(itemDataModel)
             } else {
                 return itemList
             }
         }
         return itemList
+    }
+
+    fun isNotDataCheckSharedPreferences(context: Context): Boolean {
+        val json =
+            context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                .getString("1", "")
+        return json.isNullOrEmpty()
+
     }
 }

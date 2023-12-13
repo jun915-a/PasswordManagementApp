@@ -34,7 +34,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.imageView.observe(viewLifecycleOwner) {
+        viewModel.adapterList.observe(viewLifecycleOwner) {
             Log.d("test_log ", "${it}")
         }
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -63,7 +63,13 @@ class MainFragment : Fragment() {
                 if (!availableItemFlag) {
                     Toast.makeText(context, "現在のアイテムを確定していません。", Toast.LENGTH_SHORT).show()
                 } else {
-                    if (viewModel.itemList.isEmpty()) {
+                    Toast.makeText(
+                        context,
+                        "itemList ${viewModel.itemList.size}。",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    if (viewModel.isNotDataCheckSharedPreferences(requireContext())) {
                         availableItemFlag = false
 
                         val adapter = ItemAdapter(1, mutableListOf(), requireContext()) {}

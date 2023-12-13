@@ -21,6 +21,7 @@ class MainFragment : Fragment() {
     companion object {
         const val MAX_ITEM_VALUE = 30
         var availableItemFlag = true
+        var isCanScroll = true
     }
 
     private var _binding: FragmentMainBinding? = null
@@ -53,14 +54,15 @@ class MainFragment : Fragment() {
                     savedListItem as ArrayList,
                     requireContext()
                 ) {
-                    afterConfirm(motionLayout,appDescription)
+                    afterConfirm(motionLayout, appDescription)
                 }
                 binding.recyclerView.adapter = adapter
             }
-            recyclerView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            listScrollArea.smoothScrollBy(0,2000)
+            listScrollArea.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
                 if (scrollY > oldScrollY) {
                     binding.motionLayout.transitionToEnd()
-                } else if (scrollY < oldScrollY) {
+                } else if (scrollY < oldScrollY && isCanScroll) {
                     binding.motionLayout.transitionToStart()
                 }
             }
@@ -74,6 +76,7 @@ class MainFragment : Fragment() {
                 if (!availableItemFlag) {
                     Toast.makeText(context, "現在のアイテムを確定していません。", Toast.LENGTH_SHORT).show()
                 } else {
+                    isCanScroll = false
                     //アイテム追加時レイアウト
                     motionLayout.transitionToState(R.id.item_add_motion)
                     appDescription.apply {
@@ -84,7 +87,7 @@ class MainFragment : Fragment() {
                     if (viewModel.getSharedPreferences(requireContext()).isEmpty()) {
                         availableItemFlag = false
                         val adapter = ItemAdapter(1, arrayListOf(), requireContext()) {
-                            afterConfirm(motionLayout,appDescription)
+                            afterConfirm(motionLayout, appDescription)
                         }
                         recyclerView.adapter = adapter
                     } else {
@@ -96,7 +99,7 @@ class MainFragment : Fragment() {
                             requireContext()
                         ) {
                             //クリック処理　エディットテキスト入力
-                            afterConfirm(motionLayout,appDescription)
+                            afterConfirm(motionLayout, appDescription)
                         }
                         recyclerView.adapter = adapter
                     }
@@ -112,7 +115,7 @@ class MainFragment : Fragment() {
         }
     }
 
-    fun afterConfirm(motionLayout: MotionLayout, appDescription: TextView,){
+    fun afterConfirm(motionLayout: MotionLayout, appDescription: TextView) {
         motionLayout.transitionToState(R.id.start)
         appDescription.apply {
             textSize = 14F
@@ -121,6 +124,7 @@ class MainFragment : Fragment() {
         }
 
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

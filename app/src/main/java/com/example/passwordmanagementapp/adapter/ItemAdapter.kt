@@ -129,6 +129,7 @@ class ItemAdapter(
                 viewModel.saveSharedPreferences(context, item, position)
                 Toast.makeText(context, "${itemName}の保存が完了しました", Toast.LENGTH_SHORT).show()
                 MainFragment.availableItemFlag = true
+                MainFragment.isCanScroll = true
                 onItemClick.invoke(position)
             } else {
                 Toast.makeText(context, "すべての領域に値を入力してください", Toast.LENGTH_SHORT).show()

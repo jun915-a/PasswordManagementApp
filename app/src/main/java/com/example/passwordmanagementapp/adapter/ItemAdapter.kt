@@ -167,7 +167,7 @@ class ItemAdapter(
         }
     }
 
-    fun setItem(item: ItemDataModel, holder: ViewHolder) {
+    private fun setItem(item: ItemDataModel, holder: ViewHolder) {
         holder.itemName.setText(item.itemName)
         holder.itemId.setText(item.itemId)
         holder.itemPassword.setText(item.itemPassword)

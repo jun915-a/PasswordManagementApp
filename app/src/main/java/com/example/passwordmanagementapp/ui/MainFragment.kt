@@ -2,7 +2,6 @@ package com.example.passwordmanagementapp.ui
 
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,7 @@ import com.example.passwordmanagementapp.model.ItemDataModel
 
 class MainFragment : Fragment() {
     companion object {
-        const val MAX_ITEM_VALUE = 30
+        const val MAX_ITEM_VALUE = 15
         var availableItemFlag = true
         var isCanScroll = true
     }
@@ -60,55 +59,48 @@ class MainFragment : Fragment() {
                 binding.recyclerView.adapter = adapter
             }
             recyclerView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
-                if (scrollY > oldScrollY) {
-                    Log.d("test_log ","ue")
-                    binding.motionLayout.transitionToEnd()
+                if (scrollY > oldScrollY && isCanScroll) {
+                    motionLayout.transitionToState(R.id.end)
                 } else if (scrollY < oldScrollY && isCanScroll) {
-                    Log.d("test_log ","ato")
-
-                    binding.motionLayout.transitionToStart()
+                    motionLayout.transitionToStart()
                 }
             }
 
             addItemButton.setOnClickListener {
-                Toast.makeText(
-                    context,
-                    "${viewModel.getSharedPreferences(requireContext()).size}",
-                    Toast.LENGTH_SHORT
-                ).show()
                 if (!availableItemFlag) {
                     Toast.makeText(context, "現在のアイテムを確定していません。", Toast.LENGTH_SHORT).show()
                 } else {
-                    isCanScroll = false
-                    //アイテム追加時レイアウト
-                    motionLayout.transitionToState(R.id.item_add_motion)
-                    appDescription.apply {
-                        textSize = 18F
-                        text = getString(R.string.app_description_2)
-                        appDescription.typeface = Typeface.DEFAULT_BOLD
-                    }
                     if (viewModel.getSharedPreferences(requireContext()).isEmpty()) {
+                        changeLayout(motionLayout, appDescription)
                         availableItemFlag = false
                         val adapter = ItemAdapter(1, arrayListOf(), requireContext()) {
                             afterConfirm(motionLayout, appDescription)
                         }
                         recyclerView.adapter = adapter
                     } else {
-                        availableItemFlag = false
                         val itemAdapterList = viewModel.getSharedPreferences(requireContext())
-                        val adapter = ItemAdapter(
-                            itemAdapterList.size + 1,
-                            itemAdapterList as ArrayList<ItemDataModel>,
-                            requireContext()
-                        ) {
-                            //クリック処理　エディットテキスト入力
-                            afterConfirm(motionLayout, appDescription)
+                        if (itemAdapterList.size < MAX_ITEM_VALUE) {
+                            changeLayout(motionLayout, appDescription)
+                            availableItemFlag = false
+                            val adapter = ItemAdapter(
+                                itemAdapterList.size + 1,
+                                itemAdapterList as ArrayList<ItemDataModel>,
+                                requireContext()
+                            ) {
+                                //クリック処理　エディットテキスト入力
+                                afterConfirm(motionLayout, appDescription)
+                            }
+                            recyclerView.adapter = adapter
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "${MAX_ITEM_VALUE}件以上のアイテムは生成できません。",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
-                        recyclerView.adapter = adapter
                     }
                 }
             }
-
             //他のViewタップでhideKeyBord
             motionLayout.setOnClickListener {
                 addItemButton.requestFocus()
@@ -118,7 +110,18 @@ class MainFragment : Fragment() {
         }
     }
 
-    fun afterConfirm(motionLayout: MotionLayout, appDescription: TextView) {
+    private fun changeLayout(motionLayout: MotionLayout, appDescription: TextView) {
+        isCanScroll = false
+        //アイテム追加時レイアウト
+        motionLayout.transitionToState(R.id.item_add_motion)
+        appDescription.apply {
+            textSize = 18F
+            text = getString(R.string.app_description_2)
+            appDescription.typeface = Typeface.DEFAULT_BOLD
+        }
+    }
+
+    private fun afterConfirm(motionLayout: MotionLayout, appDescription: TextView) {
         motionLayout.transitionToState(R.id.start)
         appDescription.apply {
             textSize = 14F

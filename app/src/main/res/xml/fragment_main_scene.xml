@@ -64,7 +64,7 @@
     </ConstraintSet>
 
     <Transition
-        app:duration="200"
+        app:duration="150"
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@+id/start">
 

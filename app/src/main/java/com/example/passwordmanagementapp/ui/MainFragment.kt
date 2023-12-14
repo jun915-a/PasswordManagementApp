@@ -19,7 +19,7 @@ import com.example.passwordmanagementapp.model.ItemDataModel
 
 class MainFragment : Fragment() {
     companion object {
-        const val MAX_ITEM_VALUE = 15
+        const val MAX_ITEM_VALUE = 30
         var availableItemFlag = true
         var isCanScroll = true
     }

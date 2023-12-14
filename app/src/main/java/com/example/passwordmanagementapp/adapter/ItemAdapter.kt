@@ -1,6 +1,8 @@
 package com.example.passwordmanagementapp.adapter
 
 import android.app.Application
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -40,6 +43,10 @@ class ItemAdapter(
         val itemDeleteText: TextView = itemView.findViewById(R.id.item_delete_text)
 
         val confirmButton: Button = itemView.findViewById(R.id.confirm_button)
+
+        val copyIdButton: ImageButton = itemView.findViewById(R.id.copy_id_button)
+        val copyPasswordButton: ImageButton = itemView.findViewById(R.id.copy_password_button)
+
     }
 
     private val viewModel: MainViewModel =
@@ -165,6 +172,38 @@ class ItemAdapter(
             }
             return@setOnEditorActionListener true
         }
+
+        //IDコピー
+        holder.copyIdButton.setOnClickListener {
+            val idText = holder.itemId.text.toString()
+            if (idText.isEmpty()) {
+                Toast.makeText(context, "IDが設定されていません。", Toast.LENGTH_SHORT).show()
+            } else {
+                copyText(idText)
+                Toast.makeText(context, "IDがコピーされました。", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        //パスワードコピー
+        holder.copyPasswordButton.setOnClickListener {
+            val passwordText = holder.itemPassword.text.toString()
+            if (passwordText.isEmpty()) {
+                Toast.makeText(context, "パスワードが設定されていません。", Toast.LENGTH_SHORT).show()
+            } else {
+                copyText(passwordText)
+                Toast.makeText(context, "パスワードがコピーされました", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun copyText(cpyText: String) {
+        // ClipboardManagerのインスタンスを取得
+        val clipboardManager =
+            context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+        // ClipDataオブジェクトを作成してクリップボードに設定
+        val clipData = ClipData.newPlainText("", cpyText)
+        clipboardManager.setPrimaryClip(clipData)
     }
 
     private fun setItem(item: ItemDataModel, holder: ViewHolder) {

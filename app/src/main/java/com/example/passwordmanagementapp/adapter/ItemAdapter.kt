@@ -40,7 +40,7 @@ class ItemAdapter(
         val changeNameText: TextView = itemView.findViewById(R.id.change_name_text)
         val changeIdText: TextView = itemView.findViewById(R.id.change_id_text)
         val changePasswordText: TextView = itemView.findViewById(R.id.change_password_text)
-        val itemDeleteText: TextView = itemView.findViewById(R.id.item_delete_text)
+//        val itemDeleteText: TextView = itemView.findViewById(R.id.item_delete_text)
 
         val confirmButton: Button = itemView.findViewById(R.id.confirm_button)
 
@@ -121,9 +121,8 @@ class ItemAdapter(
         }
 
         //アイテム削除
-        holder.itemDeleteText.setOnClickListener {
-//            viewModel.getSharedPreferences(context)
-        }
+//        holder.itemDeleteText.setOnClickListener {
+//        }
 
         holder.confirmButton.setOnClickListener {
             val itemName = holder.itemName.text.toString()

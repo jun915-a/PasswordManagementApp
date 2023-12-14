@@ -197,7 +197,7 @@
         android:id="@+id/option_area"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/icon">
 
@@ -229,21 +229,23 @@
             android:layout_height="40dp"
             android:background="@drawable/menu_text_back"
             android:gravity="center_vertical"
+            android:maxLines="1"
             android:text="@string/change_password_text"
-            android:textSize="20sp"
+            android:autoSizeMaxTextSize="20sp"
+            android:autoSizeMinTextSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/change_id_text" />
 
-        <TextView
-            android:id="@+id/item_delete_text"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/menu_text_back"
-            android:gravity="center_vertical"
-            android:text="@string/item_delete_text"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/change_password_text" />
+        <!--        <TextView-->
+        <!--            android:id="@+id/item_delete_text"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="40dp"-->
+        <!--            android:background="@drawable/menu_text_back"-->
+        <!--            android:gravity="center_vertical"-->
+        <!--            android:text="@string/item_delete_text"-->
+        <!--            android:textSize="20sp"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/change_password_text" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
